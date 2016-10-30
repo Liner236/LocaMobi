@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private boolean start = false;
     private long[] time_array;
     Vector<Long> time_vec;
+    private long timeSec = 0;
+    private boolean stopT = false;
 
     // GPS Stuff
     private LocationManager locationManager;
@@ -135,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         });
         //---------------------------------------------------------
 
+        // Track Time and Data----------------------------------------------------------------
         light_vec = new Vector<Double>(20,10);
         time_vec = new Vector<Long>(20,10);
 
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             public void onClick(View v) {
                 light_value_array = vecInDoubleArray(light_vec);
                 time_array = vecInLongArray(time_vec);
+                System.out.println(time_vec.size());
                 changeToEvaluation(v);
             }
         });
@@ -153,11 +157,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     trackSensorData();
+
                 } else {
-                    // The toggle is disabled
+                    stopTime();
                 }
             }
         });
+
+        //----------------------------------------------------------------------------------
 
 
 
@@ -269,18 +276,44 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public void trackSensorData() {
         new Thread(new Runnable() {
             public void run() {
+                startTime();
+                while(true){
+                    time_vec.add(timeSec);
+                    light_vec.add(getLight_value());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-            time_vec.add(System.currentTimeMillis() / 1000);
-            light_vec.add(getLight_value());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Halloooooo");
 
             }
         }).start();
+    }
+
+    public void startTime() {
+        new Thread(new Runnable() {
+            public void run() {
+                while (true){
+                    timeSec ++;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (stopT == true){
+                        break;
+                    }
+                }
+
+            }
+        }).start();
+    }
+
+    public void stopTime(){
+        stopT = true;
+        timeSec = 0;
     }
 
     @Override
@@ -307,11 +340,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -322,6 +350,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         locationManager.removeUpdates(this);
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

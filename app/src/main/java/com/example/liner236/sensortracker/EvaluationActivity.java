@@ -37,14 +37,11 @@ public class EvaluationActivity extends AppCompatActivity {
         DataPoint[] points = new DataPoint[light_value_arr.length];
 
         for (int i=0;i<points.length;i++){
-            points[i] = new DataPoint(time_arr[i],light_value_arr[i]);
+            points[i] = new DataPoint(time_arr[i],(int)light_value_arr[i]);
         }
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(0, 1)
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
 
-
-        });
         light_graph.getViewport().setScrollable(true);
         light_graph.getViewport().setScalable(true);
         light_graph.getViewport().setScrollableY(true);
