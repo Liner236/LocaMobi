@@ -16,12 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity implements LocationListener, SensorEventListener {
+
+    //General Stuff
+    private boolean start = false;
 
     // GPS Stuff
     private LocationManager locationManager;
@@ -37,12 +41,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
 
 
+
     //------------------------------------------------------------
 
     // Accel Stuff
     private SensorManager sensorManager = null;
     private Sensor accelSensor;
-    double x,y,z;
+    private double x,y,z;
+
+    //Light Sensor Stuff
+    private SensorManager sensorManager_light = null;
+    private  Sensor light_sensor;
+
 
     //Database Stuff
 
@@ -54,14 +64,45 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         setContentView(R.layout.activity_main);
 
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
-        locateViaGps();
-
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+        sensorManager_light = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+
+
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this,accelSensor,SensorManager.SENSOR_DELAY_NORMAL);
 
-        // Evtl für besser Datenübertragung
+        light_sensor = sensorManager_light.getDefaultSensor(Sensor.TYPE_LIGHT);
+        sensorManager_light.registerListener(this,light_sensor,SensorManager.SENSOR_DELAY_NORMAL);
+
+        Button btn_start = (Button)findViewById(R.id.btn_start);
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start = true;
+                locateViaGps();
+            }
+        });
+
+        Button btn_stop = (Button)findViewById(R.id.btn_stop);
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start = false;
+
+            }
+        });
+
+        Button btn_beenden = (Button)findViewById(R.id.btn_beenden);
+        btn_beenden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+
+
+        // Evtl für besser Datenübertragung-----------------------
         latVec = new Vector<DataVectorGps>(20,10);
 
         Button btn_map = (Button)findViewById(R.id.btn_map);
@@ -72,11 +113,37 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 changeAktivity(v);
             }
         });
+        //---------------------------------------------------------
 
 
 
 
 
+
+    }
+
+
+    private void accelValueChange(double x,double y,double z){
+        if (x <= 0){
+            setX(x * (-1));
+        }
+        else{
+            setX(x + 20);
+        }
+
+        if (y <= 0){
+            setY(y * (-1));
+        }
+        else{
+            setY(y + 20);
+        }
+
+        if (z <= 0){
+            setZ(z * (-1));
+        }
+        else{
+            setZ(z + 20);
+        }
     }
 
     private void locateViaGps(){
@@ -85,10 +152,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_TO_REFRESH, MIN_DISTANCE_TO_REFRESH, this);
         this.location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        setLatitude(location.getLatitude());
-        setLongitude(location.getLongitude());
+        if(location != null){
+            setLatitude(location.getLatitude());
+            setLongitude(location.getLongitude());
 
-        ((TextView) findViewById(R.id.tv_gps_cordinates)).setText("Latitude: " + getLatitude() + "\n" + "Longitude: " + getLongitude());
+            ((TextView) findViewById(R.id.tv_gps_cordinates)).setText("Latitude: " + getLatitude() + "\n" + "Longitude: " + getLongitude());
+        }
+        else{
+            Toast.makeText(this, "location = NULL", Toast.LENGTH_LONG).show();
+        }
+
 
     }
 
@@ -115,9 +188,40 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         }
     }
 
+
+
     @Override
     public void onSensorChanged(SensorEvent event) {
-        ((TextView) findViewById(R.id.tv_accel)).setText("X: " + event.values[0] + "\n" + "Y: " + event.values[1] + "\n" + "X: " + event.values[2]);
+        if (start){
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+                setX(event.values[0]);
+                setY(event.values[1]);
+                setZ(event.values[2]);
+                ((TextView) findViewById(R.id.tv_accel)).setText("X: " + getX() + "\n" + "Y: " + getY() + "\n" + "Z: " + getZ());
+            }
+
+            if (event.sensor.getType() == Sensor.TYPE_LIGHT){
+                ((TextView) findViewById(R.id.tv_light)).setText(String.valueOf(event.values[0]));
+            }
+
+
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
+        sensorManager_light.unregisterListener(this);
+
+        locationManager.removeUpdates(this);
     }
 
     @Override
@@ -127,10 +231,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public void onLocationChanged(Location location) {
-
-        locateViaGps();
-        latVec.add(new DataVectorGps(getLatitude(),getLongitude()));
-        Toast.makeText(this, "GPS collected", Toast.LENGTH_LONG).show();
+        if (start){
+            locateViaGps();
+            latVec.add(new DataVectorGps(getLatitude(),getLongitude()));
+            Toast.makeText(this, "GPS collected", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -165,5 +270,29 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public void setZ(double z) {
+        this.z = z;
     }
 }

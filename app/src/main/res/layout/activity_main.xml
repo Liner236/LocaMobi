@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
@@ -8,40 +14,103 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimaryDark"
     tools:context="com.example.liner236.sensortracker.MainActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:textSize="20dp"
-            android:textColor="#2f2f2f"
-            android:layout_marginLeft="20dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_gps_cordinates"
-            android:text="GPS"
-            android:layout_weight="0.21" />
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:weightSum="1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
 
-        <TextView
-            android:text="ACCEL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="#2f2f2f"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/tv_accel"
-            android:layout_weight="0.21" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="61dp">
 
-        <Button
-            android:text="Show Map"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_map" />
-    </LinearLayout>
+                <Button
+                    android:text="Start"
+                    android:layout_width="122dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_start"
+                    android:layout_weight="1.17"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@color/yellow" />
+
+                <Button
+                    android:text="Stop"
+                    android:layout_width="131dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_stop"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@color/yellow" />
+            </LinearLayout>
+
+            <Button
+                android:text="Show Map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/yellow"
+                android:id="@+id/btn_map" />
+
+            <Button
+                android:text="Show Sensor Evaluaton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_sensor_eva"
+                android:textColor="@color/yellow"
+                android:backgroundTint="@color/black" />
+
+            <Button
+                android:text="GO LIVE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_live"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/yellow" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="20dp"
+                android:textColor="@color/cyan"
+                android:layout_marginLeft="20dp"
+                android:layout_height="76dp"
+                android:id="@+id/tv_gps_cordinates"
+                android:text="GPS" />
+
+            <TextView
+                android:text="ACCEL"
+                android:layout_width="match_parent"
+                android:layout_height="102dp"
+                android:textSize="20dp"
+                android:textColor="@color/cyan"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_accel" />
+
+            <TextView
+                android:text="Light"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:textSize="20dp"
+                android:textColor="@color/cyan"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_light" />
+
+            <Button
+                android:text="Beenden"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_beenden"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/yellow" />
+
+        </LinearLayout>
+
 </RelativeLayout>
+    </ScrollView>
