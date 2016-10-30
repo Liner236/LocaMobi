@@ -49,7 +49,17 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/black"
                     android:textColor="@color/yellow" />
+
             </LinearLayout>
+
+            <ToggleButton
+                android:text="Track Data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:id="@+id/tbtn_trackData"
+                android:layout_weight="1.17"
+                android:textColor="@color/yellow" />
 
             <Button
                 android:text="Show Map"
@@ -80,27 +90,36 @@
                 android:textSize="20dp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
-                android:layout_height="76dp"
                 android:id="@+id/tv_gps_cordinates"
-                android:text="GPS" />
+                android:text="Latitude:\nLongitude:"
+                android:layout_height="80dp" />
 
             <TextView
-                android:text="ACCEL"
+                android:text="X:\nY:\nZ:"
                 android:layout_width="match_parent"
-                android:layout_height="102dp"
                 android:textSize="20dp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/tv_accel" />
+                android:id="@+id/tv_accel"
+                android:layout_height="120dp" />
 
             <TextView
-                android:text="Light"
+                android:text="Illuminance:"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
                 android:textSize="20dp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/tv_light" />
+                android:id="@+id/tv_light"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:text="Pressure:"
+                android:layout_width="match_parent"
+                android:id="@+id/tv_pressure"
+                android:textSize="20dp"
+                android:textColor="@color/cyan"
+                android:layout_marginLeft="20dp"
+                android:layout_height="40dp" />
 
             <Button
                 android:text="Beenden"
