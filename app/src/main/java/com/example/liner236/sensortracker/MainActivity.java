@@ -157,6 +157,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
         });
 
+        Button btn_lightsaber = (Button)findViewById(R.id.btn_lightsaber);
+        btn_lightsaber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    changeToLightsaber(v);
+            }
+        });
+
 
         // Evtl für besser Datenübertragung-----------------------
         latVec = new Vector<DataVectorGps>(20,10);
@@ -264,6 +272,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         i.putExtras(b);
 
+        startActivity(i);
+    }
+
+    public void changeToLightsaber(View view){
+        Intent i = new Intent(this,LightsaberActivity.class);
         startActivity(i);
     }
 

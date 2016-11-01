@@ -88,10 +88,10 @@
                 android:backgroundTint="@color/black" />
 
             <Button
-                android:text="GO LIVE"
+                android:text="c=====-------------------->"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_live"
+                android:id="@+id/btn_lightsaber"
                 android:backgroundTint="@color/black"
                 android:textColor="@color/btn_fontcolor"/>
 
