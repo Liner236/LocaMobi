@@ -34,7 +34,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".EvaluationActivity"></activity>
+        <activity android:name=".EvaluationActivity" />
+        <activity android:name=".LightsaberActivity"></activity>
     </application>
 
 </manifest>

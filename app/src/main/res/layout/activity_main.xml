@@ -30,16 +30,17 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="61dp">
+                android:layout_height="wrap_content">
 
                 <Button
                     android:text="Start"
+
                     android:layout_width="122dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_start"
                     android:layout_weight="1.17"
                     android:backgroundTint="@color/black"
-                    android:textColor="@color/yellow" />
+                    android:textColor="@color/btn_fontcolor" />
 
                 <Button
                     android:text="Stop"
@@ -48,25 +49,34 @@
                     android:id="@+id/btn_stop"
                     android:layout_weight="1"
                     android:backgroundTint="@color/black"
-                    android:textColor="@color/yellow" />
+                    android:textColor="@color/btn_fontcolor" />
 
             </LinearLayout>
 
-            <ToggleButton
-                android:text="Track Data"
+            <CheckBox
+                android:text="Save Data"
+                android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:id="@+id/tbtn_trackData"
-                android:layout_weight="1.17"
-                android:textColor="@color/yellow" />
+                android:id="@+id/checkBox2"
+                android:layout_weight="1.45"
+                android:textColor="@color/btn_fontcolor" />
+
+            <CheckBox
+                android:text="Track Data"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/btn_fontcolor"
+                android:id="@+id/cb_trackData"
+                android:layout_weight="1.17" />
 
             <Button
                 android:text="Show Map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:textColor="@color/yellow"
+                android:textColor="@color/btn_fontcolor"
                 android:id="@+id/btn_map" />
 
             <Button
@@ -74,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_sensor_eva"
-                android:textColor="@color/yellow"
+                android:textColor="@color/btn_fontcolor"
                 android:backgroundTint="@color/black" />
 
             <Button
@@ -83,11 +93,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_live"
                 android:backgroundTint="@color/black"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/btn_fontcolor"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:textSize="20dp"
+                android:textSize="18sp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/tv_gps_cordinates"
@@ -97,16 +107,16 @@
             <TextView
                 android:text="X:\nY:\nZ:"
                 android:layout_width="match_parent"
-                android:textSize="20dp"
+                android:textSize="18sp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/tv_accel"
-                android:layout_height="120dp" />
+                android:layout_height="98dp" />
 
             <TextView
                 android:text="Illuminance:"
                 android:layout_width="match_parent"
-                android:textSize="20dp"
+                android:textSize="18sp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/tv_light"
@@ -116,7 +126,7 @@
                 android:text="Pressure:"
                 android:layout_width="match_parent"
                 android:id="@+id/tv_pressure"
-                android:textSize="20dp"
+                android:textSize="18sp"
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
                 android:layout_height="40dp" />
@@ -127,7 +137,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/btn_beenden"
                 android:backgroundTint="@color/black"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/btn_fontcolor" />
 
         </LinearLayout>
 
