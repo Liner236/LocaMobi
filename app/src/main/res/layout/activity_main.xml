@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true">
@@ -53,23 +54,29 @@
 
             </LinearLayout>
 
-            <CheckBox
-                android:text="Save Data"
-                android:layout_marginLeft="20dp"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/checkBox2"
-                android:layout_weight="1.45"
-                android:textColor="@color/btn_fontcolor" />
+                android:layout_height="match_parent">
 
-            <CheckBox
-                android:text="Track Data"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/btn_fontcolor"
-                android:id="@+id/cb_trackData"
-                android:layout_weight="1.17" />
+                <CheckBox
+                    android:text="Track Data"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:id="@+id/cb_trackData"
+                    android:layout_weight="1" />
+
+                <CheckBox
+                    android:text="Save Data"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkBox2"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
 
             <Button
                 android:text="Show Map"
@@ -95,6 +102,44 @@
                 android:backgroundTint="@color/black"
                 android:textColor="@color/btn_fontcolor"/>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="43dp">
+
+                <CheckBox
+                    android:text="GPS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:id="@+id/cb_gps"
+                    android:layout_weight="1.34" />
+
+                <CheckBox
+                    android:text="Accel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:id="@+id/cb_accel"
+                    android:layout_weight="0.86" />
+
+                <CheckBox
+                    android:text="Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:id="@+id/cb_light"
+                    android:layout_weight="1.59" />
+
+                <CheckBox
+                    android:text="Pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:id="@+id/cb_pressure"
+                    android:layout_weight="1.22" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:textSize="18sp"
@@ -111,7 +156,7 @@
                 android:textColor="@color/cyan"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/tv_accel"
-                android:layout_height="98dp" />
+                android:layout_height="89dp" />
 
             <TextView
                 android:text="Illuminance:"

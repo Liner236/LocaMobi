@@ -31,7 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (extras != null){
             latitudeArray = extras.getDoubleArray("latitude");
             longitudeArray = extras.getDoubleArray("longitude");
-            //System.out.println("######################### " + latitudeArray[0]);
+            System.out.println("######################### " + latitudeArray[0]);
         }
 
 
@@ -47,16 +47,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        if (latitudeArray != null || longitudeArray != null){
+        if (latitudeArray == null || longitudeArray == null){
+            System.out.println("RETUUUURN !!!");
             return;
         }
+        else{
+            me = new LatLng(latitudeArray[0],longitudeArray[0]);
+            for (int i=1;i < latitudeArray.length;i++){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(latitudeArray[i],longitudeArray[i])).title("Me" + i));
+            }
 
-
-        for (int i=1;i < latitudeArray.length;i++){
-            mMap.addMarker(new MarkerOptions().position(new LatLng(latitudeArray[i],longitudeArray[i])).title("Me" + i));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me,16));
         }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(me));
+
+
 
 
 

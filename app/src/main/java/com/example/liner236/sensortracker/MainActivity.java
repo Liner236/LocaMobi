@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     //General Stuff
     private boolean start = false;
     private boolean stopT = false;
+    private boolean track_accel = false;
+    private boolean track_light = false;
+    private  boolean track_pressure = false;
 
 
     //Time
@@ -112,8 +115,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         pressure_sensor = sensorManager_pressure.getDefaultSensor(Sensor.TYPE_PRESSURE);
         sensorManager_pressure.registerListener(this,pressure_sensor,SensorManager.SENSOR_DELAY_NORMAL);
 
+
         Button btn_start = (Button)findViewById(R.id.btn_start);
         final CheckBox cb_trackData = (CheckBox)findViewById(R.id.cb_trackData);
+        final CheckBox cb_gps = (CheckBox)findViewById(R.id.cb_gps);
+        final CheckBox cb_accel = (CheckBox)findViewById(R.id.cb_accel);
+        final CheckBox cb_light = (CheckBox)findViewById(R.id.cb_light);
+        final CheckBox cb_pressure = (CheckBox)findViewById(R.id.cb_pressure);
+
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +135,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         trackSensorData();
                     }
 
+                    if (cb_accel.isChecked()){
+                        track_accel = true;
+                    }
+
+                    if (cb_light.isChecked()){
+                        track_light = true;
+                    }
+
+                    if (cb_pressure.isChecked()){
+                        track_pressure = true;
+                    }
+
                     cb_trackData.setEnabled(false);
+                    cb_accel.setEnabled(false);
+                    cb_light.setEnabled(false);
+                    cb_pressure.setEnabled(false);
                 }
 
             }
@@ -139,11 +163,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 if(start){
                     start = false;
                     cb_trackData.setEnabled(true);
-                    light_value_array = null;
-                    pressure_value_array = null;
-                    xArray = null;
-                    yArray = null;
-                    zArray = null;
+                    cb_light.setEnabled(true);
+                    cb_accel.setEnabled(true);
+                    cb_pressure.setEnabled(true);
+
+                    light_vec.clear();
+                    accel_vec[0].clear();
+                    accel_vec[1].clear();
+                    accel_vec[2].clear();
+                    pressure_vec.clear();
                 }
             }
         });
@@ -174,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             @Override
             public void onClick(View v) {
                 vecInArray(latVec);
-                if(latArray != null && lonArray != null){
+                if(latArray != null || lonArray != null){
                     changeAktivity(v);
                 }
                 else {
@@ -328,24 +356,32 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
 
     public void trackSensorData() {
+
         runnable = new Runnable() {
             @Override
             public void run() {
                 startTime();
+
                 while(true){
                     if (start == false){
                         break;
                     }
                     time_vec.add(timeSec);
-                    light_vec.add(getLight_value());
-                    pressure_vec.add(getPressure_value());
-                    accel_vec[0].add(getX());
-                    accel_vec[1].add(getY());
-                    accel_vec[2].add(getZ());
 
-                    System.out.println("was ghet ab");
+                    if (track_light)
+                        light_vec.add(getLight_value());
+
+                    if (track_pressure)
+                        pressure_vec.add(getPressure_value());
+
+                    if (track_accel){
+                        accel_vec[0].add(getX());
+                        accel_vec[1].add(getY());
+                        accel_vec[2].add(getZ());
+                    }
+
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -383,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (start){
-            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER && track_accel){
                 setX(event.values[0]);
                 setY(event.values[1]);
                 setZ(event.values[2]);
@@ -391,12 +427,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                         + "\n" + "Z: " +  Math.round(getZ()* Math.pow(10d,5))/Math.pow(10d,5));
             }
 
-            if (event.sensor.getType() == Sensor.TYPE_LIGHT){
+            if (event.sensor.getType() == Sensor.TYPE_LIGHT && track_light){
                 setLight_value(event.values[0]);
                 ((TextView) findViewById(R.id.tv_light)).setText(String.valueOf("Illuminance: " + getLight_value()) + " lx");
             }
 
-            if (event.sensor.getType() == Sensor.TYPE_PRESSURE){
+            if (event.sensor.getType() == Sensor.TYPE_PRESSURE && track_pressure){
                 setPressure_value(event.values[0]);
                 ((TextView) findViewById(R.id.tv_pressure)).setText(String.valueOf("Pressure: " + Math.round(getPressure_value()* Math.pow(10d,3))/Math.pow(10d,3)) + " hPa");
             }

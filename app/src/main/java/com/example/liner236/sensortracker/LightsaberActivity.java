@@ -65,6 +65,13 @@ public class LightsaberActivity extends AppCompatActivity implements SensorEvent
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
+        sensorManager_light.unregisterListener(this);
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
 
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE && check){

@@ -43,9 +43,14 @@ public class EvaluationActivity extends AppCompatActivity {
         light_graph = (GraphView)findViewById(R.id.graph_light);
         pressure_graph = (GraphView)findViewById(R.id.graph_pressure);
 
-        lightGraph();
-        accelGraph();
-        pressureGraph();
+        if (xArray != null || yArray != null || zArray != null)
+            accelGraph();
+
+        if (light_value_arr != null)
+            lightGraph();
+
+        if (pressure_value_arr != null)
+            pressureGraph();
 
 
     }
@@ -53,6 +58,7 @@ public class EvaluationActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
 
     }
 
