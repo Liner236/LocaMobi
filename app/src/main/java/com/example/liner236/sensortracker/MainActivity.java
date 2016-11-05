@@ -308,6 +308,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         startActivity(i);
     }
 
+    public void changeToGpsErrorEva(View view){
+        Intent i = new Intent(this,.class);
+        startActivity(i);
+    }
+
     public void changeToEvaluation(View view){
         Intent i = new Intent(this,EvaluationActivity.class);
         Bundle b = new Bundle();
@@ -381,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     }
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

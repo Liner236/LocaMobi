@@ -87,12 +87,20 @@
                 android:id="@+id/btn_map" />
 
             <Button
-                android:text="Show Sensor Evaluaton"
+                android:text="Sensor Evaluaton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_sensor_eva"
                 android:textColor="@color/btn_fontcolor"
                 android:backgroundTint="@color/black" />
+
+            <Button
+                android:text="GPS Error Evaluation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/btn_fontcolor"
+                android:id="@+id/gps_error_eva" />
 
             <Button
                 android:text="c=====-------------------->"
