@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     // GPS Stuff
     private LocationManager locationManager;
     private Location location;
-    private static final long MIN_TIME_TO_REFRESH = 40000L;
+    private static final long MIN_TIME_TO_REFRESH = 2000L;
     private static final float MIN_DISTANCE_TO_REFRESH = 10F;
     private double latitude;
     private double longitude;
@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         sensorManager_pressure.registerListener(this,pressure_sensor,SensorManager.SENSOR_DELAY_NORMAL);
 
 
-        Button btn_start = (Button)findViewById(R.id.btn_start);
+
         final CheckBox cb_trackData = (CheckBox)findViewById(R.id.cb_trackData);
         final CheckBox cb_gps = (CheckBox)findViewById(R.id.cb_gps);
         final CheckBox cb_accel = (CheckBox)findViewById(R.id.cb_accel);
         final CheckBox cb_light = (CheckBox)findViewById(R.id.cb_light);
         final CheckBox cb_pressure = (CheckBox)findViewById(R.id.cb_pressure);
 
-
+        Button btn_start = (Button)findViewById(R.id.btn_start);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +239,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         //----------------------------------------------------------------------------------
 
-
+        Button btn_error_eva = (Button)findViewById(R.id.btn_error_eva);
+        btn_error_eva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToGpsErrorEva(v);
+            }
+        });
 
 
 
@@ -309,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
 
     public void changeToGpsErrorEva(View view){
-        Intent i = new Intent(this,.class);
+        Intent i = new Intent(this,GpsErrEvaluation.class);
         startActivity(i);
     }
 

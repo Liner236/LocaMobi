@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:textColor="@color/btn_fontcolor"
-                android:id="@+id/gps_error_eva" />
+                android:id="@+id/btn_error_eva" />
 
             <Button
                 android:text="c=====-------------------->"

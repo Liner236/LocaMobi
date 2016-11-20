@@ -21,6 +21,20 @@
             android:text="Start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_start" />
+            android:id="@+id/btn_start_two" />
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:id="@+id/graph_error"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="Auswertung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/btn_auswertung" />
     </LinearLayout>
 </RelativeLayout>
