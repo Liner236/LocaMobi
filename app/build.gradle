@@ -28,4 +28,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.6.1'
     testCompile 'junit:junit:4.12'
     compile files('libs/GraphView-4.2.1.jar')
+    compile 'com.google.android.gms:play-services:9.8.0'
 }

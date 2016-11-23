@@ -1,40 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_gps_err_evaluation"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.liner236.sensortracker.GpsErrEvaluation">
+    android:clipToPadding="true">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_gps_err_evaluation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.liner236.sensortracker.GpsErrEvaluation">
 
-        <Button
-            android:text="Start"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_start_two" />
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
 
-        <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:id="@+id/graph_error"
-            android:layout_marginTop="15dp"
-            android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_weight="0.45"
+                android:layout_height="60dp">
 
-        <Button
-            android:text="Auswertung"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:id="@+id/btn_auswertung" />
-    </LinearLayout>
-</RelativeLayout>
+                <Button
+                    android:text="Start"
+                    android:layout_width="166dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_start_two"
+                    android:layout_weight="0.12" />
+
+                <Button
+                    android:text="Stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_stop"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_weight="0.42">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="GPS:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="@color/gray"
+                    android:id="@+id/tv_gps"
+                    android:layout_weight="4.0" />
+
+                <TextView
+                    android:text="gAPI:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="@color/gray"
+                    android:id="@+id/tv_gapi"
+                    android:layout_weight="4.0" />
+
+                <TextView
+                    android:text="WLAN:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="@color/gray"
+                    android:id="@+id/tv_wlan"
+                    android:layout_weight="4.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.69"
+                android:weightSum="1">
+
+                <RadioGroup
+                    android:layout_width="152dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rg_gps">
+
+                    <RadioButton
+                        android:text="Android GPS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_android_gps"
+                        android:layout_weight="0.04" />
+
+                    <RadioButton
+                        android:text="Google GPS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_google_gps"
+                        android:layout_weight="0.04" />
+
+                    <RadioButton
+                        android:text="Wifi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_wifi"
+                        android:layout_weight="0.04" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rg_accuracy">
+
+                    <RadioButton
+                        android:text="High Accuracy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_high_accu" />
+
+                    <RadioButton
+                        android:text="Low Power"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_low_power" />
+
+                    <RadioButton
+                        android:text="Balanced Power"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_balanc_power" />
+
+                    <RadioButton
+                        android:text="No Power"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_no_power" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <Button
+                android:text="Auswertung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/btn_auswertung" />
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/graph_error"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentStart="true" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

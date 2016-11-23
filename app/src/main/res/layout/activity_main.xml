@@ -35,7 +35,6 @@
 
                 <Button
                     android:text="Start"
-
                     android:layout_width="122dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_start"

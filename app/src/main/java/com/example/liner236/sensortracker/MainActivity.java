@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     Vector<Double> pressure_vec;
     double[] pressure_value_array;
 
+    // Mediaplayer Files
+    MediaPlayer click_sound;
 
     //Database Stuff
 
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         pressure_sensor = sensorManager_pressure.getDefaultSensor(Sensor.TYPE_PRESSURE);
         sensorManager_pressure.registerListener(this,pressure_sensor,SensorManager.SENSOR_DELAY_NORMAL);
 
-
+        click_sound = MediaPlayer.create(this, R.raw.adriantnt_bubble_clap);
 
         final CheckBox cb_trackData = (CheckBox)findViewById(R.id.cb_trackData);
         final CheckBox cb_gps = (CheckBox)findViewById(R.id.cb_gps);
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                click_sound.start();
                 if (!start){
                     start = true;
                     locateViaGps();
@@ -160,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                click_sound.start();
                 if(start){
                     start = false;
                     cb_trackData.setEnabled(true);
@@ -172,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     accel_vec[1].clear();
                     accel_vec[2].clear();
                     pressure_vec.clear();
+
+                    killGpsTracking();
                 }
             }
         });
@@ -180,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_beenden.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                click_sound.start();
                 finish();
 
             }
@@ -189,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_lightsaber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    changeToLightsaber(v);
+                changeToLightsaber(v);
             }
         });
 
@@ -201,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                click_sound.start();
                 vecInArray(latVec);
                 if(latArray != null || lonArray != null){
                     changeAktivity(v);
@@ -226,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_sensor_eva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                click_sound.start();
                 time_array = vecInLongArray(time_vec);
                 light_value_array = vecInDoubleArray(light_vec);
                 pressure_value_array = vecInDoubleArray(pressure_vec);
@@ -243,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         btn_error_eva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                click_sound.start();
                 changeToGpsErrorEva(v);
             }
         });
@@ -255,27 +266,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
 
 
-    private void accelValueChange(double x,double y,double z){
-        if (x <= 0){
-            setX(x * (-1));
-        }
-        else{
-            setX(x + 20);
-        }
-
-        if (y <= 0){
-            setY(y * (-1));
-        }
-        else{
-            setY(y + 20);
-        }
-
-        if (z <= 0){
-            setZ(z * (-1));
-        }
-        else{
-            setZ(z + 20);
-        }
+    protected void killGpsTracking(){
+        locationManager.removeUpdates(this);
     }
 
     private void locateViaGps(){
@@ -457,6 +449,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         sensorManager.unregisterListener(this);
         sensorManager_light.unregisterListener(this);
         sensorManager_pressure.unregisterListener(this);

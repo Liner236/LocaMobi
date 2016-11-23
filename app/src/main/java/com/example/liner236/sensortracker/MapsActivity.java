@@ -2,6 +2,8 @@ package com.example.liner236.sensortracker;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (extras != null){
             latitudeArray = extras.getDoubleArray("latitude");
             longitudeArray = extras.getDoubleArray("longitude");
-            System.out.println("######################### " + latitudeArray[0]);
+
         }
 
 
@@ -52,12 +54,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         else{
-            me = new LatLng(latitudeArray[0],longitudeArray[0]);
+            try {
+                me = new LatLng(latitudeArray[0],longitudeArray[0]);
+
+
             for (int i=1;i < latitudeArray.length;i++){
                 mMap.addMarker(new MarkerOptions().position(new LatLng(latitudeArray[i],longitudeArray[i])).title("Me" + i));
             }
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me,16));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
 
