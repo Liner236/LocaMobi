@@ -148,6 +148,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:text="Ticks: 0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_ticks"
+                android:layout_weight="0.45" />
+
             <Button
                 android:text="Auswertung"
                 android:layout_width="match_parent"
@@ -161,6 +172,14 @@
                 android:id="@+id/graph_error"
                 android:layout_marginTop="15dp"
                 android:layout_alignParentStart="true" />
+
+            <Button
+                android:text="Arthurische Evaluation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/btn_arthur_eva"
+                android:layout_weight="0.45" />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

@@ -63,6 +63,7 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
     private TextView tv_gps;
     private TextView tv_gapi;
     private TextView tv_wlan;
+    private TextView tv_ticks;
 
     boolean isRunning = false;
 
@@ -97,6 +98,7 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
         tv_gps = (TextView)findViewById(R.id.tv_gps);
         tv_gapi = (TextView)findViewById(R.id.tv_gapi);
         tv_wlan = (TextView)findViewById(R.id.tv_wlan);
+        tv_ticks = (TextView)findViewById(R.id.tv_ticks);
 
         click_sound = MediaPlayer.create(this, R.raw.adriantnt_bubble_clap);
 
@@ -127,6 +129,7 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
                 click_sound.start();
                 isRunning = false;
                 tracking_counter = 0;
+                tv_ticks.setText("Ticks: " + 0);
                 locationGPS = null;
                 error_graph.removeAllSeries();
                 vec_meters.removeAllElements();
@@ -211,8 +214,10 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
+
         if (isRunning) {
             trackGpsValues(location);
+            tv_ticks.setText("Ticks: " + tracking_counter);
         }
     }
 
@@ -241,8 +246,7 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
             vec_meters.add((int) locationGPS.getAccuracy());
             tracking_counter += 1;
 
-            System.out.println("Meters: " + metersGPS);
-            Toast.makeText(this, "Position tracked", Toast.LENGTH_LONG).show();
+            System.out.println("Meters: " + metersGPS + "Lat: " + locationGPS.getLatitude() + "Lon: " + locationGPS.getLongitude());
         } else {
             Toast.makeText(this, "location = NULL", Toast.LENGTH_LONG).show();
         }
