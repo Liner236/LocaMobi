@@ -1,5 +1,6 @@
 package com.example.liner236.sensortracker;
 
+import android.content.Intent;
 import android.graphics.Color;
 
 import android.location.Location;
@@ -41,8 +42,10 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
     private double latitudeGPS;
     private double longitudeGPS;
     private int metersGPS;
+    private long time;
 
     Vector<Integer> vec_meters;
+    Vector<Long> vec_time;
     private int tracking_counter;
     double[] err_percent_array;
 
@@ -64,8 +67,21 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
     private TextView tv_gapi;
     private TextView tv_wlan;
     private TextView tv_ticks;
+    private TextView tv_latlon;
+    private TextView tv_dist_err;
 
     boolean isRunning = false;
+
+    //Groundtruth und Locations
+    private double[] myLatitude_arr;
+    private double[] myLongitude_arr;
+    private double[] gtLatitude_arr;
+    private double[] gtLongitude_arr;
+    private double[] distGTtoMY;
+    private long[] track_time;
+
+
+    private int i;
 
     // Mediaplayer Files
     MediaPlayer click_sound;
@@ -78,6 +94,7 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
 
         locationmanagerGPS = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         vec_meters = new Vector<Integer>(50, 20);
+        vec_time = new Vector<Long>(50, 20);
         err_percent_array = new double[100];
 
         rg_accuracy = (RadioGroup) findViewById(R.id.rg_accuracy);
@@ -99,8 +116,36 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
         tv_gapi = (TextView)findViewById(R.id.tv_gapi);
         tv_wlan = (TextView)findViewById(R.id.tv_wlan);
         tv_ticks = (TextView)findViewById(R.id.tv_ticks);
+        tv_latlon = (TextView)findViewById(R.id.tv_latlon);
+        tv_dist_err = (TextView)findViewById(R.id.tv_dist_err);
 
         click_sound = MediaPlayer.create(this, R.raw.adriantnt_bubble_clap);
+
+        //Groundtruth ...
+        myLatitude_arr = new double[6];
+        myLongitude_arr = new double[6];
+        distGTtoMY = new double[6];
+        track_time = new long[6];
+        i = 0;
+
+        gtLatitude_arr = new double[6];
+        gtLatitude_arr[0] = 51.488758;
+        gtLatitude_arr[1] = 51.488470;
+        gtLatitude_arr[2] = 51.487853;
+        gtLatitude_arr[3] = 51.487768;
+        gtLatitude_arr[4] = 51.488007;
+        gtLatitude_arr[5] = 51.488484;
+
+        gtLongitude_arr = new double[6];
+        gtLongitude_arr[0] = 7.206915;
+        gtLongitude_arr[1] = 7.205716;
+        gtLongitude_arr[2] = 7.205090;
+        gtLongitude_arr[3] = 7.206373;
+        gtLongitude_arr[4] = 7.207404;
+        gtLongitude_arr[5] = 7.207112;
+
+
+
 
 
         Button btn_start = (Button) findViewById(R.id.btn_start_two);
@@ -133,7 +178,37 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
                 locationGPS = null;
                 error_graph.removeAllSeries();
                 vec_meters.removeAllElements();
+                vec_time.removeAllElements();
                 killGPSTracking();
+                tv_latlon.setText("Latitude: \tLongitude:");
+                tv_dist_err.setText("Distance:");
+
+            }
+        });
+
+        Button btn_track = (Button) findViewById(R.id.btn_track);
+        btn_track.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trackPosition();
+
+            }
+        });
+
+        Button btn_dist_err = (Button) findViewById(R.id.btn_dist_err);
+        btn_dist_err.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                distBettweenPoits();
+
+            }
+        });
+
+        Button btn_map = (Button) findViewById(R.id.btn_map);
+        btn_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToGTMaps(v);
 
             }
         });
@@ -150,6 +225,14 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
                     e.printStackTrace();
                 }
 
+            }
+        });
+
+        Button btn_arthur_eva = (Button) findViewById(R.id.btn_arthur_eva);
+        btn_arthur_eva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToArthurEva(v);
             }
         });
 
@@ -186,6 +269,36 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
 
         checkConnections();
 
+    }
+
+    private void trackPosition(){
+        if (i < 6){
+            myLatitude_arr[i] = latitudeGPS;
+            myLongitude_arr[i] = longitudeGPS;
+            track_time[i] = time;
+            tv_latlon.setText(tv_latlon.getText() + "\n" + "TS: " + track_time[i] + "\n" + myLatitude_arr[i] + "\t\t" + myLongitude_arr[i]);
+            i++;
+            System.out.println("i: ------------- : " + i);
+        }
+        else{
+            Toast.makeText(this, "Value limit reached", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    private void distBettweenPoits(){
+        Location myLoca = new Location(LocationManager.GPS_PROVIDER);
+        Location gtLoca = new Location(LocationManager.GPS_PROVIDER);
+        for (int i = 0;i < 6;i++){
+            myLoca.setLatitude(this.myLatitude_arr[i]);
+            myLoca.setLongitude(this.myLongitude_arr[i]);
+            gtLoca.setLatitude(this.myLatitude_arr[i]);
+            gtLoca.setLongitude(this.myLongitude_arr[i]);
+            distGTtoMY[i] = myLoca.distanceTo(gtLoca);
+
+            tv_dist_err.setText(tv_dist_err.getText() + "\n" + distGTtoMY[i]);
+        }
     }
 
     protected void killGPSTracking(){
@@ -242,8 +355,12 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
             latitudeGPS = locationGPS.getLatitude();
             longitudeGPS = locationGPS.getLongitude();
 
+            time = locationGPS.getTime();
             metersGPS = (int) locationGPS.getAccuracy();
+
             vec_meters.add((int) locationGPS.getAccuracy());
+            vec_time.add(locationGPS.getTime());
+
             tracking_counter += 1;
 
             System.out.println("Meters: " + metersGPS + "Lat: " + locationGPS.getLatitude() + "Lon: " + locationGPS.getLongitude());
@@ -289,7 +406,6 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
 
 
     }
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -374,6 +490,25 @@ public class GpsErrEvaluation extends AppCompatActivity implements LocationListe
             tv_wlan.setText("WLAN: N.A");
             tv_wlan.setTextColor(getResources().getColor(R.color.red_failure));
         }
+    }
+
+    public void changeToArthurEva(View view){
+        Intent i = new Intent(this,ArthursEvaluation.class);
+        startActivity(i);
+    }
+
+    public void changeToGTMaps(View view){
+        Intent i = new Intent(this,GTMapsActivity.class);
+        Bundle b = new Bundle();
+
+        b.putDoubleArray("myLatitude",myLatitude_arr);
+        b.putDoubleArray("myLongitude",myLongitude_arr);
+        b.putDoubleArray("gtLatitude",gtLatitude_arr);
+        b.putDoubleArray("gtLongitude",gtLongitude_arr);
+
+        i.putExtras(b);
+
+        startActivity(i);
     }
 
 }

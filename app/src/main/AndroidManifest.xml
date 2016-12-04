@@ -48,7 +48,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ArthursEvaluation"></activity>
+        <activity android:name=".ArthursEvaluation" />
+        <activity
+            android:name=".GTMapsActivity"
+            android:label="@string/title_activity_gtmaps"></activity>
     </application>
 
 </manifest>

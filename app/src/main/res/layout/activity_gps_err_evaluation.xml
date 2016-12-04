@@ -160,6 +160,45 @@
                 android:layout_weight="0.45" />
 
             <Button
+                android:text="Track"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/btn_track" />
+
+            <TextView
+                android:text="Latitude:                     Longitude:"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_latlon"
+                android:textColor="@color/colorAccent"
+                android:layout_weight="0.45" />
+
+            <Button
+                android:text="Distance Error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/btn_dist_err" />
+
+            <TextView
+                android:text="Distance:"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_dist_err"
+                android:textColor="@color/red_failure"
+                android:layout_weight="0.45" />
+
+            <Button
+                android:text="Map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/btn_map" />
+
+            <Button
                 android:text="Auswertung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
